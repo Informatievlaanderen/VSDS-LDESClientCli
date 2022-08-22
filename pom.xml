@@ -23,6 +23,18 @@
         <junit-jupiter.version>5.9.0</junit-jupiter.version>
         <mockito.version>4.7.0</mockito.version>
         <awaitility.version>4.2.0</awaitility.version>
+
+        <!-- JACOCO -->
+        <jacoco.version>0.8.8</jacoco.version>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.language>java</sonar.language>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>informatievlaanderen</sonar.organization>
+        <sonar.projectKey>Informatievlaanderen_VSDS-LDESClientCli
+        </sonar.projectKey>
     </properties>
 
     <dependencies>
@@ -60,6 +72,50 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <formats>
+                                        <format>XML</format>
+                                    </formats>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
