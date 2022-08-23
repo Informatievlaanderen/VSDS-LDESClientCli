@@ -1,9 +1,6 @@
-package be.vlaanderen.informatievlaanderen.ldes.client.cli;
+package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.LdesClientImplFactory;
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner;
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker;
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import org.apache.jena.riot.Lang;
 import org.springframework.stereotype.Component;

@@ -2,6 +2,7 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.arguments.ArgumentParser;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.arguments.CommandlineArguments;
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.LdesClientCli;
 import com.beust.jcommander.JCommander;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
