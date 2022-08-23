@@ -12,21 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EndpointCheckerTest {
 
+	@ParameterizedTest(name = "endpoint {0} is reachable: {1}")
+	@ArgumentsSource(EndpointArgumentsProvider.class)
+	void when_EndpointCanBeReached_IsReachableIsTrue(String endpoint, boolean isReachable) {
+		EndpointChecker endpointChecker = new EndpointChecker(endpoint);
+		assertEquals(isReachable, endpointChecker.isReachable());
+	}
 
-    @ParameterizedTest(name = "endpoint {0} is reachable: {1}")
-    @ArgumentsSource(EndpointArgumentsProvider.class)
-    void when_EndpointCanBeReached_IsReachableIsTrue(String endpoint, boolean isReachable) {
-        EndpointChecker endpointChecker = new EndpointChecker(endpoint);
-        assertEquals(isReachable, endpointChecker.isReachable());
-    }
-
-    static class EndpointArgumentsProvider implements ArgumentsProvider {
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-            return Stream.of(
-                    Arguments.of("http://www.google.be", true),
-                    Arguments.of("http://www.not-existing-site.be", false));
-        }
-    }
+	static class EndpointArgumentsProvider implements ArgumentsProvider {
+		@Override
+		public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+			return Stream.of(
+					Arguments.of("http://www.google.be", true),
+					Arguments.of("http://www.not-existing-site.be", false));
+		}
+	}
 
 }

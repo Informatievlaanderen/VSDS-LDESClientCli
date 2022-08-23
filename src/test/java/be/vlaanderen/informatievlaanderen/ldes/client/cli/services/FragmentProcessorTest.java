@@ -24,54 +24,54 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class FragmentProcessorTest {
-    LdesService ldesService = mock(LdesService.class);
+	LdesService ldesService = mock(LdesService.class);
 
-    @Test
-    void when_LdesServerHasFragments_TheyAreConvertedAndPrintedOut() throws IOException, URISyntaxException {
-        when(ldesService.hasFragmentsToProcess()).thenReturn(true);
-        LdesFragment ldesFragment = new LdesFragment();
-        LdesMember ldesMember = readLdesMemberFromFile(getClass().getClassLoader(), "member1.txt");
-        ldesFragment.addMember(ldesMember);
-        when(ldesService.processNextFragment()).thenReturn(ldesFragment);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(byteArrayOutputStream);
+	@Test
+	void when_LdesServerHasFragments_TheyAreConvertedAndPrintedOut() throws IOException, URISyntaxException {
+		when(ldesService.hasFragmentsToProcess()).thenReturn(true);
+		LdesFragment ldesFragment = new LdesFragment();
+		LdesMember ldesMember = readLdesMemberFromFile(getClass().getClassLoader(), "member1.txt");
+		ldesFragment.addMember(ldesMember);
+		when(ldesService.processNextFragment()).thenReturn(ldesFragment);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
-        FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, printStream, Lang.NQUADS);
-        fragmentProcessor.processLdesFragments();
+		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, printStream, Lang.NQUADS);
+		fragmentProcessor.processLdesFragments();
 
-        byteArrayOutputStream.flush();
-        String actualOutput = byteArrayOutputStream.toString();
-        assertTrue(ldesMember.getMemberModel().isIsomorphicWith(convertToModel(actualOutput)));
-    }
+		byteArrayOutputStream.flush();
+		String actualOutput = byteArrayOutputStream.toString();
+		assertTrue(ldesMember.getMemberModel().isIsomorphicWith(convertToModel(actualOutput)));
+	}
 
-    @Test
-    void when_LdesServerHasNoFragments_NothingIsPrinted() throws IOException {
-        when(ldesService.hasFragmentsToProcess()).thenReturn(false);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(byteArrayOutputStream);
+	@Test
+	void when_LdesServerHasNoFragments_NothingIsPrinted() throws IOException {
+		when(ldesService.hasFragmentsToProcess()).thenReturn(false);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		PrintStream printStream = new PrintStream(byteArrayOutputStream);
 
-        FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, printStream, null);
-        fragmentProcessor.processLdesFragments();
+		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, printStream, null);
+		fragmentProcessor.processLdesFragments();
 
-        byteArrayOutputStream.flush();
-        String actualOutput = byteArrayOutputStream.toString();
-        assertEquals("", actualOutput);
-    }
+		byteArrayOutputStream.flush();
+		String actualOutput = byteArrayOutputStream.toString();
+		assertEquals("", actualOutput);
+	}
 
-    private LdesMember readLdesMemberFromFile(ClassLoader classLoader, String fileName)
-            throws URISyntaxException, IOException {
-        File file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).toURI());
-        String memberString = Files.lines(Paths.get(file.toURI())).collect(Collectors.joining());
-        Model outputModel = convertToModel(memberString);
+	private LdesMember readLdesMemberFromFile(ClassLoader classLoader, String fileName)
+			throws URISyntaxException, IOException {
+		File file = new File(Objects.requireNonNull(classLoader.getResource(fileName)).toURI());
+		String memberString = Files.lines(Paths.get(file.toURI())).collect(Collectors.joining());
+		Model outputModel = convertToModel(memberString);
 
-        return new LdesMember("https://private-api.gipod.beta-vlaanderen.be/api/v1/mobility-hindrances/10810464/1",
-                outputModel);
-    }
+		return new LdesMember("https://private-api.gipod.beta-vlaanderen.be/api/v1/mobility-hindrances/10810464/1",
+				outputModel);
+	}
 
-    private Model convertToModel(String memberString) {
-        return RDFParserBuilder.create()
-                .fromString(memberString).lang(Lang.NQUADS)
-                .toModel();
-    }
+	private Model convertToModel(String memberString) {
+		return RDFParserBuilder.create()
+				.fromString(memberString).lang(Lang.NQUADS)
+				.toModel();
+	}
 
 }
