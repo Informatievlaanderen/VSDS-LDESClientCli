@@ -19,9 +19,9 @@ class CliRunnerTest {
     @Test
     void when_CliRunnerIsRunning_EndpointIsBeingChecked() {
         Awaitility.reset();
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker endpointChecker = mock(be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker.class);
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor fragmentProcessor = mock(be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor.class);
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner cliRunner = new be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner(fragmentProcessor, endpointChecker, 1);
+        EndpointChecker endpointChecker = mock(EndpointChecker.class);
+        FragmentProcessor fragmentProcessor = mock(FragmentProcessor.class);
+        CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, 1);
 
         ExecutorService service = Executors.newSingleThreadExecutor();
         Future<?> submit = service.submit(cliRunner);
@@ -43,11 +43,11 @@ class CliRunnerTest {
     @Test
     void when_EndpointIsNotReachable_ItIsPeriodicallyPolled() {
         Awaitility.reset();
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker endpointChecker = mock(be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker.class);
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor fragmentProcessor = mock(be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor.class);
+        EndpointChecker endpointChecker = mock(EndpointChecker.class);
+        FragmentProcessor fragmentProcessor = mock(FragmentProcessor.class);
         when(endpointChecker.isReachable()).thenReturn(false);
 
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner cliRunner = new be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner(fragmentProcessor, endpointChecker, 1);
+        CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, 1);
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(cliRunner);
 
@@ -62,11 +62,11 @@ class CliRunnerTest {
     @Test
     void when_EndpointIsReachable_FragmentProcessorIsCalled() {
         Awaitility.reset();
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker endpointChecker = mock(EndpointChecker.class);
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor fragmentProcessor = mock(FragmentProcessor.class);
+        EndpointChecker endpointChecker = mock(EndpointChecker.class);
+        FragmentProcessor fragmentProcessor = mock(FragmentProcessor.class);
         when(endpointChecker.isReachable()).thenReturn(true);
 
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, 1);
+        CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, 1);
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(cliRunner);
 

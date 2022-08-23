@@ -3,7 +3,7 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.arguments;
 import com.beust.jcommander.Parameter;
 import org.apache.jena.riot.Lang;
 
-import static be.vlaanderen.informatievlaanderen.ldes.client.cli.constants.Constants.*;
+import static be.vlaanderen.informatievlaanderen.ldes.client.cli.constants.CliConstants.*;
 
 public class CommandlineArguments {
     @Parameter(

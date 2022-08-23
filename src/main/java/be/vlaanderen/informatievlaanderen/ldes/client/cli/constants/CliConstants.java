@@ -2,18 +2,22 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.constants;
 
 import org.apache.jena.riot.Lang;
 
-public class Constants {
+public class CliConstants {
 
-    private Constants() {
+    private CliConstants() {
     }
 
-    /** The expected RDF format of the LDES data source */
+    /**
+     * The expected RDF format of the LDES data source
+     */
     public static final Lang DEFAULT_SOURCE_FORMAT = Lang.JSONLD11;
-    /** The desired RDF format for output */
+    /**
+     * The desired RDF format for output
+     */
     public static final Lang DEFAULT_DESTINATION_FORMAT = Lang.NQUADS;
     /**
      * The number of seconds to add to the current time before a fragment is considered expired.
-     *
+     * <p>
      * Only used when the HTTP request that contains the fragment does not have a max-age element in the Cache-control header.
      */
     public static final Long DEFAULT_EXPIRATION_INTERVAL = 604800L;

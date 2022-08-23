@@ -25,8 +25,8 @@ public class LdesClientCli {
         LdesService ldesService = LdesClientImplFactory.getLdesService(dataSourceFormat, expirationInterval);
         ldesService.queueFragment(fragmentId);
         FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, OUTPUT_STREAM, dataDestinationFormat);
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker endpointChecker = new EndpointChecker(fragmentId);
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, pollingInterval);
+        EndpointChecker endpointChecker = new EndpointChecker(fragmentId);
+        CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, pollingInterval);
         EXECUTOR_SERVICE.submit(cliRunner);
     }
 }

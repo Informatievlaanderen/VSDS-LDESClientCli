@@ -16,7 +16,7 @@ class EndpointCheckerTest {
     @ParameterizedTest(name = "endpoint {0} is reachable: {1}")
     @ArgumentsSource(EndpointArgumentsProvider.class)
     void when_EndpointCanBeReached_IsReachableIsTrue(String endpoint, boolean isReachable) {
-        be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker endpointChecker = new EndpointChecker(endpoint);
+        EndpointChecker endpointChecker = new EndpointChecker(endpoint);
         assertEquals(isReachable, endpointChecker.isReachable());
     }
 
