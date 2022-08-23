@@ -27,5 +27,5 @@ public class CliConstants {
 	 * The amount of time to wait to call the LdesService when the queue has no
 	 * mutable fragments left or when the mutable fragments have not yet expired.
 	 */
-	public static final Long DEFAULT_POLLING_INTERVAL = 5L;
+	public static final Long DEFAULT_POLLING_INTERVAL = 60L;
 }
