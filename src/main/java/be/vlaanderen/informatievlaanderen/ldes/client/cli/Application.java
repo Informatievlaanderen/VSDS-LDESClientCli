@@ -30,7 +30,8 @@ public class Application implements CommandLineRunner {
 			printOutUsage(arguments);
 		} else {
 			ldesClientCli.start(arguments.getUrl(), arguments.getSourceFormat(), arguments.getOutputFormat(),
-					arguments.getExpirationInterval(), arguments.getPollingInterval());
+					arguments.getExpirationInterval(), arguments.getPollingInterval(),
+					arguments.getEndpointBehaviour());
 		}
 	}
 

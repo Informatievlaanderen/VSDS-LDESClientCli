@@ -1,6 +1,7 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.converters.ModelConverter;
+import be.vlaanderen.informatievlaanderen.ldes.client.exception.UnparseableFragmentException;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
 import org.apache.jena.riot.Lang;
@@ -11,7 +12,6 @@ import java.io.PrintStream;
 
 public class FragmentProcessor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FragmentProcessor.class);
-
 	private final LdesService ldesService;
 	private final PrintStream printStream;
 	private final Lang destinationFormat;
@@ -23,11 +23,16 @@ public class FragmentProcessor {
 	}
 
 	public void processLdesFragments() {
-		if (ldesService.hasFragmentsToProcess()) {
-			LdesFragment fragment = ldesService.processNextFragment();
-			LOGGER.info("Fragment {} has {} member(s)", fragment.getFragmentId(), fragment.getMembers().size());
-			fragment.getMembers().forEach(member -> printStream
-					.println(ModelConverter.convertModelToString(member.getMemberModel(), destinationFormat)));
+		try {
+			if (ldesService.hasFragmentsToProcess()) {
+				LdesFragment fragment = ldesService.processNextFragment();
+				LOGGER.info("Fragment {} has {} member(s)", fragment.getFragmentId(), fragment.getMembers().size());
+				fragment.getMembers().forEach(member -> printStream
+						.println(ModelConverter.convertModelToString(member.getMemberModel(), destinationFormat)));
+			}
+		} catch (UnparseableFragmentException ex) {
+			printStream.println(ex.getMessage());
+			throw ex;
 		}
 	}
 }

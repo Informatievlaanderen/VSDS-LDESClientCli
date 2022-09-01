@@ -40,6 +40,11 @@
         <!-- CODE FORMATTER -->
         <formatter-maven-plugin.version>2.20.0</formatter-maven-plugin.version>
         <skipFormatCode>false</skipFormatCode>
+
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
+        <unittestskip>false</unittestskip>
+        <integrationtestskip>false</integrationtestskip>
     </properties>
 
     <dependencies>
@@ -126,6 +131,35 @@
                     <encoding>UTF-8</encoding>
                     <configFile>${project.basedir}/settings.xml</configFile>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <skip>${unittestskip}</skip>
+                    <properties>
+                        <configurationParameters>
+                            cucumber.junit-platform.naming-strategy=long
+                        </configurationParameters>
+                    </properties>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+
+                <configuration>
+                    <skip>${integrationtestskip}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
