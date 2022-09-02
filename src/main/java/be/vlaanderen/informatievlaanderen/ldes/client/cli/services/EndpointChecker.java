@@ -21,7 +21,7 @@ public class EndpointChecker {
 			connection.setRequestMethod("GET");
 			return connection.getResponseCode() == 200;
 		} catch (IOException e) {
-			LOGGER.info("Endpoint {} not yet available", endpoint);
+			LOGGER.info("Endpoint {} not available", endpoint);
 			return false;
 		}
 	}
