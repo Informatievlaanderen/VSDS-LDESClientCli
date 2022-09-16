@@ -28,6 +28,18 @@ class ArgumentParserTest {
 	}
 
 	@Test
+	void when_nullArgsAreProvided_ArgumentParserReturnsDefaultCommandLineArguments() {
+		CommandlineArguments commandlineArguments = argumentParser.parseArguments(
+				"--url", "url");
+		assertEquals("url", commandlineArguments.getUrl());
+		assertEquals(Lang.JSONLD11, commandlineArguments.getSourceFormat());
+		assertEquals(Lang.NQUADS, commandlineArguments.getOutputFormat());
+		assertEquals(604800, commandlineArguments.getExpirationInterval());
+		assertEquals(60, commandlineArguments.getPollingInterval());
+		assertFalse(commandlineArguments.isHelp());
+	}
+
+	@Test
 	void when_unknownArgIsProvided_ArgumentParserThrowsParameterException() {
 		ParameterException parameterException = assertThrows(ParameterException.class,
 				() -> argumentParser.parseArguments(
