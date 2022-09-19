@@ -1,5 +1,6 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
+import be.vlaanderen.informatievlaanderen.ldes.client.exception.UnparseableFragmentException;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
 import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesMember;
@@ -18,8 +19,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -56,6 +56,20 @@ class FragmentProcessorTest {
 		byteArrayOutputStream.flush();
 		String actualOutput = byteArrayOutputStream.toString();
 		assertEquals("", actualOutput);
+	}
+
+	@Test
+	void when_LdesServerThrowsUnparseableFragmentException_UnparseableFragmentExceptionIsRethrown() {
+		when(ldesService.hasFragmentsToProcess())
+				.thenThrow(new UnparseableFragmentException("fragmentURL", new RuntimeException()));
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		PrintStream printStream = new PrintStream(byteArrayOutputStream);
+
+		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, printStream, null);
+		UnparseableFragmentException unparseableFragmentException = assertThrows(UnparseableFragmentException.class,
+				fragmentProcessor::processLdesFragments);
+
+		assertEquals("LdesClient cannot parse fragment id: fragmentURL", unparseableFragmentException.getMessage());
 	}
 
 	private LdesMember readLdesMemberFromFile(ClassLoader classLoader, String fileName)
