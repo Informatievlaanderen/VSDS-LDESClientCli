@@ -24,6 +24,7 @@ class EndpointCheckerTest {
 		public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
 			return Stream.of(
 					Arguments.of("http://www.google.be", true),
+					Arguments.of("http://httpstat.us/404", false),
 					Arguments.of("http://www.not-existing-site.be", false));
 		}
 	}

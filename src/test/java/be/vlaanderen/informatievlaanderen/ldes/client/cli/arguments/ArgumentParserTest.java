@@ -1,5 +1,6 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.arguments;
 
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 import com.beust.jcommander.ParameterException;
 import org.apache.jena.riot.Lang;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,7 @@ class ArgumentParserTest {
 		assertEquals(Lang.NQUADS, commandlineArguments.getOutputFormat());
 		assertEquals(604800, commandlineArguments.getExpirationInterval());
 		assertEquals(60, commandlineArguments.getPollingInterval());
+		assertEquals(EndpointBehaviour.STOPPING, commandlineArguments.getEndpointBehaviour());
 		assertFalse(commandlineArguments.isHelp());
 	}
 

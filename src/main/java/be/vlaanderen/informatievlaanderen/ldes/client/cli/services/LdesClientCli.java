@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.PrintStream;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Component
 public class LdesClientCli {
-	private static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
+	private final ExecutorService executorService;
 
 	private static final PrintStream OUTPUT_STREAM = System.out;
 
-	private LdesClientCli() {
+	public LdesClientCli(ExecutorService executorService) {
+		this.executorService = executorService;
 	}
 
 	public void start(String fragmentId, Lang dataSourceFormat, Lang dataDestinationFormat, Long expirationInterval,
@@ -28,11 +28,12 @@ public class LdesClientCli {
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, OUTPUT_STREAM, dataDestinationFormat);
 		EndpointChecker endpointChecker = new EndpointChecker(fragmentId);
 		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, unreachableEndpointStrategy);
-		EXECUTOR_SERVICE.submit(cliRunner);
-		EXECUTOR_SERVICE.shutdown();
+		executorService.submit(cliRunner);
+		executorService.shutdown();
 	}
 
-	UnreachableEndpointStrategy getUnreachableEndpointStrategy(EndpointBehaviour endpointBehaviour, String fragmentId,
+	private UnreachableEndpointStrategy getUnreachableEndpointStrategy(EndpointBehaviour endpointBehaviour,
+			String fragmentId,
 			long pollingInterval) {
 		switch (endpointBehaviour) {
 			case STOPPING -> {
