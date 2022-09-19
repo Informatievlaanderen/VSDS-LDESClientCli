@@ -19,12 +19,13 @@ class ArgumentParserTest {
 				"--output-format", "n-triples",
 				"--expiration-interval", "10",
 				"--polling-interval", "20", "--endpoint-behaviour",
-				"stopping", "--help");
+				"waiting", "--help");
 		assertEquals("url", commandlineArguments.getUrl());
 		assertEquals(Lang.NQUADS, commandlineArguments.getSourceFormat());
 		assertEquals(Lang.NTRIPLES, commandlineArguments.getOutputFormat());
 		assertEquals(10, commandlineArguments.getExpirationInterval());
 		assertEquals(20, commandlineArguments.getPollingInterval());
+		assertEquals(EndpointBehaviour.WAITING, commandlineArguments.getEndpointBehaviour());
 		assertTrue(commandlineArguments.isHelp());
 	}
 
