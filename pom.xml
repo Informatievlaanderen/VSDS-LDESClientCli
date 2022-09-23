@@ -19,7 +19,7 @@
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
 
         <ldes-client.version>1.0-SNAPSHOT</ldes-client.version>
-        <spring-boot.version>2.7.3</spring-boot.version>
+        <spring-boot.version>2.7.4</spring-boot.version>
         <jcommander.version>1.82</jcommander.version>
         <junit-jupiter.version>5.9.1</junit-jupiter.version>
         <mockito.version>4.8.0</mockito.version>
@@ -41,8 +41,8 @@
         <formatter-maven-plugin.version>2.20.0</formatter-maven-plugin.version>
         <skipFormatCode>false</skipFormatCode>
 
-        <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
         <unittestskip>false</unittestskip>
         <integrationtestskip>false</integrationtestskip>
     </properties>
