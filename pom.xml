@@ -41,6 +41,7 @@
         <formatter-maven-plugin.version>2.20.0</formatter-maven-plugin.version>
         <skipFormatCode>false</skipFormatCode>
 
+        <pmd-plugin.version>3.19.0</pmd-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
         <unittestskip>false</unittestskip>
@@ -166,6 +167,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pmd-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
