@@ -4,7 +4,7 @@ public class EndpointNotReachableException extends RuntimeException {
 
 	/** Implements Serializable. */
 	private static final long serialVersionUID = 3828492633404449817L;
-	
+
 	private final String endpoint;
 
 	public EndpointNotReachableException(String endpoint) {
