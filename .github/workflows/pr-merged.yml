@@ -23,11 +23,18 @@ jobs:
         with:
           distribution: zulu
           java-version: 18
+          server-id: github-client-sdk
+          server-username: CLIENT_USERNAME
+          server-password: CLIENT_PASSWORD
       - name: Publish Jar to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_USER_REF: x-access-token # Temporary hack to get around PAT for github packages
+          GITHUB_TOKEN_REF: ${{ secrets.GITHUB_TOKEN }} # Temporary hack to get around PAT for github packages
+          CLIENT_USERNAME: ${{ secrets.USER_NAME }} # Temporary hack to get around PAT for github packages
+          CLIENT_PASSWORD: ${{ secrets.ACCESS_TOKEN }} # Temporary hack to get around PAT for github packages
         run: |
-          mvn deploy
+          mvn --settings ./.github/workflows/settings.xml deploy
           export VERSION=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout)
           echo "version=$VERSION" >> $GITHUB_ENV
 
