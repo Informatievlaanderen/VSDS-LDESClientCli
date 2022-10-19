@@ -1,6 +1,5 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli;
 
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.LdesClientCli;
 import org.apache.jena.riot.Lang;
 import org.junit.jupiter.api.Test;

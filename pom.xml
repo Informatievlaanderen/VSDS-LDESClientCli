@@ -17,53 +17,64 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-
-        <ldes-client.version>1.0-SNAPSHOT</ldes-client.version>
-        <spring-boot.version>2.7.4</spring-boot.version>
-        <jcommander.version>1.82</jcommander.version>
-        <junit-jupiter.version>5.9.1</junit-jupiter.version>
-        <mockito.version>4.8.0</mockito.version>
-        <awaitility.version>4.2.0</awaitility.version>
-
-        <!-- JACOCO -->
-        <jacoco.version>0.8.8</jacoco.version>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.language>java</sonar.language>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.organization>informatievlaanderen</sonar.organization>
-        <sonar.projectKey>Informatievlaanderen_VSDS-LDESClientCli
-        </sonar.projectKey>
-
-        <!-- CODE FORMATTER -->
-        <formatter-maven-plugin.version>2.20.0</formatter-maven-plugin.version>
-        <skipFormatCode>false</skipFormatCode>
-
         <pmd-plugin.version>3.19.0</pmd-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
         <unittestskip>false</unittestskip>
         <integrationtestskip>false</integrationtestskip>
+
+		<!-- VSDS -->
+        <ldes-client.version>1.0-SNAPSHOT</ldes-client.version>
+        
+        <!-- Spring boot -->
+        <spring-boot.version>2.7.4</spring-boot.version>
+        
+        <!-- Command line argument parsing -->
+        <jcommander.version>1.82</jcommander.version>
+
+        <!-- JACOCO -->
+        <jacoco.version>0.8.8</jacoco.version>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.language>java</sonar.language>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>informatievlaanderen</sonar.organization>
+        <sonar.projectKey>Informatievlaanderen_VSDS-LDESClientCli</sonar.projectKey>
+        
+        <!-- Testing -->
+        <junit-jupiter.version>5.9.1</junit-jupiter.version>
+        <mockito.version>4.8.0</mockito.version>
+        <awaitility.version>4.2.0</awaitility.version>
+
+        <!-- CODE FORMATTER -->
+        <formatter-maven-plugin.version>2.20.0</formatter-maven-plugin.version>
+        <skipFormatCode>false</skipFormatCode>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
+    	<!-- VSDS -->
         <dependency>
             <groupId>be.vlaanderen.informatievlaanderen</groupId>
             <artifactId>ldes-client</artifactId>
             <version>${ldes-client.version}</version>
         </dependency>
+        
+        <!-- Spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        
+        <!-- Command line argument parsing -->
         <dependency>
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
             <version>${jcommander.version}</version>
         </dependency>
+        
+        <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -136,7 +147,7 @@
                 <configuration>
                     <skip>${skipFormatCode}</skip>
                     <encoding>UTF-8</encoding>
-                    <configFile>${project.basedir}/settings.xml</configFile>
+                    <configFile>${project.basedir}/formatter.xml</configFile>
                 </configuration>
             </plugin>
             <plugin>
@@ -216,8 +227,16 @@
             <url>https://repo1.maven.org/maven2</url>
         </repository>
         <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/Informatievlaanderen/VSDS-LDESClient-NifiProcessor</url>
+            <id>github-client-sdk</id>
+            <url>https://maven.pkg.github.com/Informatievlaanderen/VSDS-LDESClient4J</url>
+        </repository>
+        <repository>
+            <id>github-workbench-nifi</id>
+            <url>https://maven.pkg.github.com/Informatievlaanderen/VSDS-LDESWorkbench-NiFi</url>
+        </repository>
+        <repository>
+            <id>github-client-cli</id>
+            <url>https://maven.pkg.github.com/Informatievlaanderen/VSDS-LDESClientCli</url>
         </repository>
     </repositories>
 
@@ -236,5 +255,4 @@
         <url>git@github.com:Informatievlaanderen/VSDS-LDESClientCli.git</url>
         <tag>HEAD</tag>
     </scm>
-
 </project>

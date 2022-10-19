@@ -1,7 +1,8 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.exception.EndpointNotReachableException;
 import org.junit.jupiter.api.Test;
+
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.exceptions.EndpointNotReachableException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
