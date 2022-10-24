@@ -13,8 +13,9 @@ public class WaitingStrategy implements UnreachableEndpointStrategy {
 	}
 
 	@Override
-	public void handleUnreachableEndpoint() {
+	public boolean handleUnreachableEndpoint() {
 		waitUntilEndpointBecomesAvailable();
+		return true;
 	}
 
 	private void waitUntilEndpointBecomesAvailable() {
