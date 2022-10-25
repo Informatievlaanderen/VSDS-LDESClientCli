@@ -18,7 +18,7 @@ public class EndpointChecker {
 	public boolean isReachable() {
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(endpoint).openConnection();
-			connection.setRequestMethod("GET");
+			connection.setRequestMethod("HEAD");
 			return connection.getResponseCode() == 200;
 		} catch (IOException e) {
 			LOGGER.info("Endpoint {} not available", endpoint);
