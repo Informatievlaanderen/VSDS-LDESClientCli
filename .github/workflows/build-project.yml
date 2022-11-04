@@ -36,7 +36,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
-        if: ${{ github.event.pull_request.head.repo.full_name == 'VSDS-LDESClientCli' }}
+        if: ${{ github.event.pull_request.head.repo.full_name == 'Informatievlaanderen/VSDS-LDESClientCli' }}
         env:
           GITHUB_USER_REF: ${{ secrets.USER_NAME }} # Temporary hack to get around PAT for github packages
           GITHUB_TOKEN_REF: ${{ secrets.ACCESS_TOKEN }} # Temporary hack to get around PAT for github packages
