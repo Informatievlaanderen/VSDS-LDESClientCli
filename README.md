@@ -63,7 +63,7 @@ Internally, the docker containers calls the CLI with all provided arguments pass
 **To run:**
 
 ```bash
-docker run -ti ldes.client [OPTIONS] <FRAGMENT URI>
+docker run -ti ghcr.io/informatievlaanderen/ldes-cli [OPTIONS] <FRAGMENT URI>
 ```
 
 See the [CLI usage](#cli-usage) for available arguments.
@@ -71,12 +71,11 @@ See the [CLI usage](#cli-usage) for available arguments.
 **Example**
 
 ```bash
-docker run -ti ldes.client -o turtle http://localhost:10101
+docker run -ti ghcr.io/informatievlaanderen/ldes-cli -o turtle http://localhost:10101
 ```
 
 **To build:**
 
 ```bash
-cd ldes-client
-docker build -t ldes.client .
+docker build .
 ```

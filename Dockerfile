@@ -7,5 +7,5 @@ RUN mvn clean install
 
 WORKDIR /
 COPY . /
-RUN mvn install
+RUN mvn net.revelc.code.formatter:formatter-maven-plugin:format install
 ENTRYPOINT ["java","-jar","target/ldes-client-cli-jar-with-dependencies.jar"]
