@@ -55,11 +55,13 @@ jobs:
             type=ref,event=pr
             type=raw,value=${{env.version}}
             type=raw,value={{date 'YYYYMMDDTHHmm'}}
+          flavor: |
+            latest=true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}, latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
