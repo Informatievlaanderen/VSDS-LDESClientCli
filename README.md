@@ -1,37 +1,71 @@
 # VSDS-LDESClientCli
 Command Line Interface that uses ldes-client to follow and synchronize an LDES
 
+<!-- TOC -->
 
-## Client CLI
+- [VSDS-LDESClientCli](#vsds-ldesclientcli)
+    - [Intro](#intro)
+    - [Usage](#usage)
+        - [Mandatory arguments](#mandatory-arguments)
+        - [Optional arguments](#optional-arguments)
+    - [Docker](#docker)
+
+<!-- /TOC -->
+
+## Intro
 
 A command-line interface is available that can be started with the base url of the LDES as the single argument.
 The stream will be followed and LDES members will be outputted to the console (only once).
 
-
-### CLI usage
+## Usage
 
 When called without arguments (or with the `-?` flag), the client CLI will print a usage statement.
 
 ```bash
-java -jar ldes-client-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar target\ldes-client-cli-jar-with-dependencies.jar [ARGUMENTS]
+```
+This can also be done through the docker image as follows
+```bash
+docker run -ti ghcr.io/informatievlaanderen/ldes-cli [ARGUMENTS]
 ```
 
 The client accepts arguments for:
-- **Input format (-i or --input-format)**
 
-  Passed on to the client as the [org.apache.jena.riot.Lang](https://jena.apache.org/documentation/javadoc/arq/org/apache/jena/riot/Lang.html) that we expect the LDES data source to be formatted in.
-  
-- **Output format (-o or --output-format)**
+### Mandatory arguments
 
-  The desired [org.apache.jena.riot.Lang](https://jena.apache.org/documentation/javadoc/arq/org/apache/jena/riot/Lang.html) for member output. Is passed on to Jena and therefore supports all the formats that Jena supports. Jena's name parser accepts variants on the official RDF format names (e.g. n-quads = nquads)
+  - **Input url (--url)**  
+    The base fragment url of the LDES.
 
-- **Expiration interval (-e or --expiration)**
+### Optional arguments 
 
-  This is the number of seconds to add to the current time before a fragment is considered expired. Only used when the HTTP request that contains the fragment does not have a max-age element in the Cache-control header.
-  
-- **Polling interval (-p or --polling)**
+- **Input format (-if or --input-format)**
 
-  This is the number of seconds to wait before polling the client again. When the client does not have any mutable fragments left in the queue, the CLI will wait this amount of seconds before calling the client again.
+  The MIME type of the data source. This value has to be [supported by Apache Jena](https://www.javadoc.io/doc/org.apache.jena/jena-arq/4.6.0/org/apache/jena/riot/Lang.html).  
+  **Default Value:** application/ld+json
+
+- **Output format (-of or --output-format)**
+
+  The desired output MIME type. This value has to be [supported by Apache Jena](https://www.javadoc.io/doc/org.apache.jena/jena-arq/4.6.0/org/apache/jena/riot/Lang.html).  
+  **Default Value:** application/n-quads
+
+- **Expiration interval (-ei or --expiration)**
+
+  This is the number of seconds to add to the current time before a fragment is considered expired. Only used when the HTTP request that contains the fragment does not have a max-age element in the Cache-control header.   
+  **Default Value:** 604800
+
+- **Polling interval (-pi or --polling)**
+
+  This is the number of seconds to wait before polling the client again. When the client does not have any mutable fragments left in the queue, the CLI will wait this amount of seconds before calling the client again.   
+  **Default Value:** 60
+
+- **Endpoint Behaviour (-eb or --endpoint-behaviour)**
+
+  The desired behaviour the Client should follow when the endpoint is not available.   
+  Possible values: 
+  - WAITING: When the endpoint is not available, the Client will keep polling until the available.
+  - STOPPING: When the endpoint is not available, the Client will shut down.
+
+  **Default Value:** STOPPING
 
 
 If invalid values are given or required values are missing (negative or invalid numbers for the intervals or a language identifier that Jena doesn't recognize), the CLI will return with the missing or invalid value, print a help message and exit.
@@ -42,35 +76,14 @@ If invalid values are given or required values are missing (negative or invalid 
 java -jar ldes-client-1.0-SNAPSHOT-jar-with-dependencies.jar -o turtle http://localhost:10101/ldes-test
 ```
 
-### CLI configuration
-
-```properties
-ldes.client.cli.polling.interval=30
-ldes.client.cli.fragment.expiration.interval=604800
-ldes.client.cli.data.source.format=JSON-LD
-ldes.client.cli.data.destination.format=nquads
-```
- 
-When there is no commandline arguments are set, then the client SDK will use the defaults from [LdesClientDefaults](src/main/java/be/vlaanderen/informatievlaanderen/ldes/client/cli/constants/CliConstants.java)
-
-### CLI docker
+## Docker
 
 The CLI is available as a docker container. This removes the need to have a local java environment set up.
 Internally, the docker containers calls the CLI with all provided arguments passed on.
 
 **To run:**
 
-```bash
-docker run -ti ghcr.io/informatievlaanderen/ldes-cli [OPTIONS] <FRAGMENT URI>
-```
-
-See the [CLI usage](#cli-usage) for available arguments.
-
-**Example**
-
-```bash
-docker run -ti ghcr.io/informatievlaanderen/ldes-cli http://localhost:10101 -sf turtle 
-```
+See the [CLI usage](#usage) for available arguments.
 
 **To build:**
 

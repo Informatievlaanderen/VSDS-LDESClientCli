@@ -22,7 +22,7 @@ public class CommandlineArguments {
 	@Parameter(names = { "--polling-interval", "-pi" }, description = "Polling interval", order = 4)
 	private Long pollingInterval = DEFAULT_POLLING_INTERVAL;
 	@Parameter(names = { "--endpoint-behaviour",
-			"-eb" }, description = "Endpoint Behaviour (stopping or waiting)", order = 5)
+			"-eb" }, description = "The desired behaviour the Client should follow when the endpoint is not available", order = 5)
 	private EndpointBehaviour endpointBehaviour = EndpointBehaviour.STOPPING;
 
 	@Parameter(names = "--help", description = "Enabling displays usage of cli", help = true, order = 6)
