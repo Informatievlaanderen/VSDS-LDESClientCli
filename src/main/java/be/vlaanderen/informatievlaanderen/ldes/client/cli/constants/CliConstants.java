@@ -10,7 +10,7 @@ public class CliConstants {
 	/**
 	 * The expected RDF format of the LDES data source
 	 */
-	public static final Lang DEFAULT_SOURCE_FORMAT = Lang.JSONLD11;
+	public static final Lang DEFAULT_SOURCE_FORMAT = Lang.JSONLD;
 	/**
 	 * The desired RDF format for output
 	 */

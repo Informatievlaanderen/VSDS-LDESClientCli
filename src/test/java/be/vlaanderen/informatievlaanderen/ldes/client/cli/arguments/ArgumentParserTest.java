@@ -34,7 +34,7 @@ class ArgumentParserTest {
 		CommandlineArguments commandlineArguments = argumentParser.parseArguments(
 				"--url", "url");
 		assertEquals("url", commandlineArguments.getUrl());
-		assertEquals(Lang.JSONLD11, commandlineArguments.getSourceFormat());
+		assertEquals(Lang.JSONLD, commandlineArguments.getSourceFormat());
 		assertEquals(Lang.NQUADS, commandlineArguments.getOutputFormat());
 		assertEquals(604800, commandlineArguments.getExpirationInterval());
 		assertEquals(60, commandlineArguments.getPollingInterval());

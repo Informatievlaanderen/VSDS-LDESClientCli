@@ -44,8 +44,6 @@ java -jar ldes-client-1.0-SNAPSHOT-jar-with-dependencies.jar -o turtle http://lo
 
 ### CLI configuration
 
-When no commandline arguments are given to the client, defaults from the [properties file](src/main/resources/ldesclientcli.properties) will be used.
-
 ```properties
 ldes.client.cli.polling.interval=30
 ldes.client.cli.fragment.expiration.interval=604800
@@ -53,7 +51,7 @@ ldes.client.cli.data.source.format=JSON-LD
 ldes.client.cli.data.destination.format=nquads
 ```
  
-When there is no properties file or not all values are set, then the client SDK will use the defaults from [LdesClientDefaults](src/main/java/be/vlaanderen/informatievlaanderen/ldes/client/LdesClientDefaults.java), as explained [previously](#sdk-configuration)
+When there is no commandline arguments are set, then the client SDK will use the defaults from [LdesClientDefaults](src/main/java/be/vlaanderen/informatievlaanderen/ldes/client/cli/constants/CliConstants.java)
 
 ### CLI docker
 
@@ -71,11 +69,11 @@ See the [CLI usage](#cli-usage) for available arguments.
 **Example**
 
 ```bash
-docker run -ti ghcr.io/informatievlaanderen/ldes-cli -o turtle http://localhost:10101
+docker run -ti ghcr.io/informatievlaanderen/ldes-cli http://localhost:10101 -sf turtle 
 ```
 
 **To build:**
 
 ```bash
-docker build .
+docker build . -t ldes-cli
 ```
