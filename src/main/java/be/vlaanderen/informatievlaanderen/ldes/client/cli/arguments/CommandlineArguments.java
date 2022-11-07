@@ -1,12 +1,11 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.arguments;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
-import com.beust.jcommander.IDefaultProvider;
 import com.beust.jcommander.Parameter;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 
-import static be.vlaanderen.informatievlaanderen.ldes.client.cli.constants.CliConstants.*;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.*;
 
 @SuppressWarnings({ "FieldMayBeFinal", "FieldCanBeLocal" })
 public class CommandlineArguments {
@@ -14,12 +13,12 @@ public class CommandlineArguments {
 	private String url;
 	@Parameter(names = { "--input-format",
 			"-if" }, description = "Input format of the LDES (n-quads, json-ld, ...)", order = 1)
-	private String sourceFormat = DEFAULT_SOURCE_FORMAT.getHeaderString();
+	private String sourceFormat = DEFAULT_DATA_SOURCE_FORMAT.getHeaderString();
 	@Parameter(names = { "--output-format",
 			"-of" }, description = "Output format of the members (n-quads, json-ld, ...)", order = 2)
-	private String outputFormat = DEFAULT_DESTINATION_FORMAT.getHeaderString();
+	private String outputFormat = DEFAULT_DATA_DESTINATION_FORMAT.getHeaderString();
 	@Parameter(names = { "--expiration-interval", "-ei" }, description = "Expiration interval", order = 3)
-	private Long expirationInterval = DEFAULT_EXPIRATION_INTERVAL;
+	private Long expirationInterval = DEFAULT_FRAGMENT_EXPIRATION_INTERVAL;
 	@Parameter(names = { "--polling-interval", "-pi" }, description = "Polling interval", order = 4)
 	private Long pollingInterval = DEFAULT_POLLING_INTERVAL;
 	@Parameter(names = { "--endpoint-behaviour",
