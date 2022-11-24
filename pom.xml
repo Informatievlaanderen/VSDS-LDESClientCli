@@ -27,7 +27,7 @@
         <ldes-client.version>1.0-SNAPSHOT</ldes-client.version>
         
         <!-- Spring boot -->
-        <spring-boot.version>2.7.5</spring-boot.version>
+        <spring-boot.version>2.7.6</spring-boot.version>
         
         <!-- Command line argument parsing -->
         <jcommander.version>1.82</jcommander.version>
