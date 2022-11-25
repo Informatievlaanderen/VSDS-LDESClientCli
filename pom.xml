@@ -51,13 +51,22 @@
         <formatter-maven-plugin.version>2.21.0</formatter-maven-plugin.version>
         <skipFormatCode>false</skipFormatCode>
     </properties>
+    
+    <dependencyManagement>
+    	<dependencies>
+			<dependency>
+				<groupId>be.vlaanderen.informatievlaanderen</groupId>
+	            <artifactId>ldes-client</artifactId>
+	            <version>${ldes-client.version}</version>
+			</dependency>
+		</dependencies>
+    </dependencyManagement>
 
     <dependencies>
     	<!-- VSDS -->
         <dependency>
             <groupId>be.vlaanderen.informatievlaanderen</groupId>
             <artifactId>ldes-client</artifactId>
-            <version>${ldes-client.version}</version>
         </dependency>
         
         <!-- Spring boot -->

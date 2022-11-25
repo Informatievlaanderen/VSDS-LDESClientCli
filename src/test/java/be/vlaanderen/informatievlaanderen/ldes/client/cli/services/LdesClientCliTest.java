@@ -1,6 +1,13 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import java.util.concurrent.ExecutorService;
+import java.util.stream.Stream;
+
 import org.apache.jena.riot.Lang;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,10 +15,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import java.util.concurrent.ExecutorService;
-import java.util.stream.Stream;
-
-import static org.mockito.Mockito.*;
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 
 class LdesClientCliTest {
 
@@ -30,9 +34,7 @@ class LdesClientCliTest {
 	static class EndpointBehavoirArgumentsProvider implements ArgumentsProvider {
 		@Override
 		public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-			return Stream.of(
-					Arguments.of(EndpointBehaviour.STOPPING),
-					Arguments.of(EndpointBehaviour.WAITING));
+			return Stream.of(Arguments.of(EndpointBehaviour.STOPPING), Arguments.of(EndpointBehaviour.WAITING));
 		}
 	}
 

@@ -1,13 +1,10 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
-import be.vlaanderen.informatievlaanderen.ldes.client.exceptions.UnparseableFragmentException;
-import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
-import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
-import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesMember;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFParserBuilder;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,9 +16,15 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFParserBuilder;
+import org.junit.jupiter.api.Test;
+
+import be.vlaanderen.informatievlaanderen.ldes.client.exceptions.UnparseableFragmentException;
+import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
+import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
+import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesMember;
 
 class FragmentProcessorTest {
 	LdesService ldesService = mock(LdesService.class);
@@ -69,7 +72,7 @@ class FragmentProcessorTest {
 		UnparseableFragmentException unparseableFragmentException = assertThrows(UnparseableFragmentException.class,
 				fragmentProcessor::processLdesFragments);
 
-		assertEquals("LdesClient cannot parse fragment id: fragmentURL", unparseableFragmentException.getMessage());
+		assertEquals("LdesClient can't parse fragment with id fragmentURL", unparseableFragmentException.getMessage());
 	}
 
 	private LdesMember readLdesMemberFromFile(ClassLoader classLoader, String fileName)
@@ -83,9 +86,7 @@ class FragmentProcessorTest {
 	}
 
 	private Model convertToModel(String memberString) {
-		return RDFParserBuilder.create()
-				.fromString(memberString).lang(Lang.NQUADS)
-				.toModel();
+		return RDFParserBuilder.create().fromString(memberString).lang(Lang.NQUADS).toModel();
 	}
 
 }
