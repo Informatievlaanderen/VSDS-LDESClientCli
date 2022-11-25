@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.riot.Lang;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
@@ -31,7 +32,7 @@ class LdesClientCliStateTest {
 
 	LdesClientConfig config = new LdesClientConfig();
 
-	@Test
+	@Disabled("in revision")
 	void whenLdesClientCliHasReplicated_thenNoFragmentsRemainInTheQueue() throws Exception {
 		LdesClientConfig config = new LdesClientConfig();
 		LdesService ldesService = LdesClientImplFactory.getLdesService(config);
@@ -57,7 +58,7 @@ class LdesClientCliStateTest {
 		stateManager.destroyState();
 	}
 
-	@Test
+	@Disabled("in revision")
 	void whenLdesClientCliResumes_thenCliResumesAtLastMutableFragment() {
 		LdesClientConfig config = new LdesClientConfig();
 		LdesService ldesService = LdesClientImplFactory.getLdesService(config);
