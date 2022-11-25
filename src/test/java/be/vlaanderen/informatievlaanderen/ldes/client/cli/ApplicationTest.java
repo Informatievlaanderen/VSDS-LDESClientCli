@@ -18,7 +18,7 @@ class ApplicationTest {
 
 	@Test
 	void test() {
-		verify(ldesClientCli, times(1)).start("ldes-url", Lang.JSONLD11, Lang.NQUADS, 604800L, 60L, STOPPING);
+		verify(ldesClientCli, times(1)).start("ldes-url", Lang.JSONLD, Lang.NQUADS, 604800L, 60L, STOPPING);
 	}
 
 }

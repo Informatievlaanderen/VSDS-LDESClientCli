@@ -2,6 +2,16 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
 import java.io.PrintStream;
 import java.util.concurrent.ExecutorService;
+<<<<<<< HEAD
+=======
+
+import org.apache.jena.riot.Lang;
+import org.springframework.stereotype.Component;
+
+import be.vlaanderen.informatievlaanderen.ldes.client.LdesClientImplFactory;
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
+import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
+>>>>>>> main
 
 import org.apache.jena.riot.Lang;
 import org.springframework.stereotype.Component;
@@ -26,6 +36,9 @@ public class LdesClientCli {
 			Long pollingInterval, EndpointBehaviour endpointBehaviour) {
 		UnreachableEndpointStrategy unreachableEndpointStrategy = getUnreachableEndpointStrategy(endpointBehaviour,
 				fragmentId, pollingInterval);
+		LdesService ldesService = LdesClientImplFactory.getLdesService();
+		ldesService.setDataSourceFormat(dataSourceFormat);
+		ldesService.setFragmentExpirationInterval(expirationInterval);
 		ldesService.queueFragment(fragmentId);
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, OUTPUT_STREAM, dataDestinationFormat);
 		EndpointChecker endpointChecker = new EndpointChecker(fragmentId);

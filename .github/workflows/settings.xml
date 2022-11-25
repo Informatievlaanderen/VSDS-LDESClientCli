@@ -42,8 +42,8 @@
 		</server>
 		<server>
 			<id>github-client-sdk</id>
-			<username>${env.CLIENT_USERNAME}</username>
-			<password>${env.CLIENT_PASSWORD}</password>
+			<username>${env.GITHUB_USER_REF}</username>
+			<password>${env.GITHUB_TOKEN_REF}</password>
 		</server>
 	</servers>
 </settings>
