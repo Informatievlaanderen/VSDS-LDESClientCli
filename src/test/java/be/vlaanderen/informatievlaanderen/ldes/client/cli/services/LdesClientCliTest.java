@@ -16,13 +16,11 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
-import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 
 class LdesClientCliTest {
 
-	LdesService ldesService = mock(LdesService.class);
 	ExecutorService executorService = mock(ExecutorService.class);
-	LdesClientCli ldesClientCli = new LdesClientCli(ldesService, executorService);
+	LdesClientCli ldesClientCli = new LdesClientCli(executorService);
 
 	@ParameterizedTest
 	@ArgumentsSource(EndpointBehavoirArgumentsProvider.class)

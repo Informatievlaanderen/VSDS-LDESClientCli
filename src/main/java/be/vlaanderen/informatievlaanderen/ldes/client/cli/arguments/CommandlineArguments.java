@@ -1,20 +1,16 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.arguments;
 
-import static be.vlaanderen.informatievlaanderen.ldes.client.cli.constants.CliConstants.DEFAULT_DESTINATION_FORMAT;
-import static be.vlaanderen.informatievlaanderen.ldes.client.cli.constants.CliConstants.DEFAULT_EXPIRATION_INTERVAL;
-import static be.vlaanderen.informatievlaanderen.ldes.client.cli.constants.CliConstants.DEFAULT_POLLING_INTERVAL;
-import static be.vlaanderen.informatievlaanderen.ldes.client.cli.constants.CliConstants.DEFAULT_SOURCE_FORMAT;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_DATA_DESTINATION_FORMAT;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_DATA_SOURCE_FORMAT;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_FRAGMENT_EXPIRATION_INTERVAL;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_POLLING_INTERVAL;
 
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 
-<<<<<<< HEAD
 import com.beust.jcommander.Parameter;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
-=======
-import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.*;
->>>>>>> main
 
 @SuppressWarnings({ "FieldMayBeFinal", "FieldCanBeLocal" })
 public class CommandlineArguments {

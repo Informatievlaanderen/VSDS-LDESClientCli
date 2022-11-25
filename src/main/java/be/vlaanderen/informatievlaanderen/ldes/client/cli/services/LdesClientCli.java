@@ -2,8 +2,6 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
 import java.io.PrintStream;
 import java.util.concurrent.ExecutorService;
-<<<<<<< HEAD
-=======
 
 import org.apache.jena.riot.Lang;
 import org.springframework.stereotype.Component;
@@ -11,24 +9,15 @@ import org.springframework.stereotype.Component;
 import be.vlaanderen.informatievlaanderen.ldes.client.LdesClientImplFactory;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
->>>>>>> main
-
-import org.apache.jena.riot.Lang;
-import org.springframework.stereotype.Component;
-
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
-import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 
 @Component
 public class LdesClientCli {
 
-	private final LdesService ldesService;
 	private final ExecutorService executorService;
 
 	private static final PrintStream OUTPUT_STREAM = System.out;
 
-	public LdesClientCli(final LdesService ldesService, ExecutorService executorService) {
-		this.ldesService = ldesService;
+	public LdesClientCli(ExecutorService executorService) {
 		this.executorService = executorService;
 	}
 
