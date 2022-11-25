@@ -1,21 +1,24 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
-import be.vlaanderen.informatievlaanderen.ldes.client.LdesClientImplFactory;
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
-import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
-import org.apache.jena.riot.Lang;
-import org.springframework.stereotype.Component;
-
 import java.io.PrintStream;
 import java.util.concurrent.ExecutorService;
 
+import org.apache.jena.riot.Lang;
+import org.springframework.stereotype.Component;
+
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
+import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
+
 @Component
 public class LdesClientCli {
+
+	private final LdesService ldesService;
 	private final ExecutorService executorService;
 
 	private static final PrintStream OUTPUT_STREAM = System.out;
 
-	public LdesClientCli(ExecutorService executorService) {
+	public LdesClientCli(final LdesService ldesService, ExecutorService executorService) {
+		this.ldesService = ldesService;
 		this.executorService = executorService;
 	}
 
@@ -23,7 +26,6 @@ public class LdesClientCli {
 			Long pollingInterval, EndpointBehaviour endpointBehaviour) {
 		UnreachableEndpointStrategy unreachableEndpointStrategy = getUnreachableEndpointStrategy(endpointBehaviour,
 				fragmentId, pollingInterval);
-		LdesService ldesService = LdesClientImplFactory.getLdesService(dataSourceFormat, expirationInterval);
 		ldesService.queueFragment(fragmentId);
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, OUTPUT_STREAM, dataDestinationFormat);
 		EndpointChecker endpointChecker = new EndpointChecker(fragmentId);
@@ -33,8 +35,7 @@ public class LdesClientCli {
 	}
 
 	private UnreachableEndpointStrategy getUnreachableEndpointStrategy(EndpointBehaviour endpointBehaviour,
-			String fragmentId,
-			long pollingInterval) {
+			String fragmentId, long pollingInterval) {
 		switch (endpointBehaviour) {
 			case STOPPING -> {
 				return new StoppingStrategy(fragmentId);
