@@ -23,7 +23,7 @@ import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import be.vlaanderen.informatievlaanderen.ldes.client.state.LdesStateManager;
 
 @WireMockTest(httpPort = 10101)
-public class LdesClientCliStateTest {
+class LdesClientCliStateTest {
 
 	private final String fragment3 = "http://localhost:10101/exampleData?generatedAtTime=2022-05-03T00:00:00.000Z";
 	private final String fragment4 = "http://localhost:10101/exampleData?generatedAtTime=2022-05-04T00:00:00.000Z";

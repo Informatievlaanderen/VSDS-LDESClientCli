@@ -16,8 +16,6 @@ public class LdesClientCli {
 	private final ExecutorService executorService;
 	private final LdesService ldesService = LdesClientImplFactory.getLdesService();
 
-	private CliRunner cliRunner;
-
 	private static final PrintStream OUTPUT_STREAM = System.out;
 
 	public LdesClientCli(ExecutorService executorService) {
@@ -34,7 +32,7 @@ public class LdesClientCli {
 
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, OUTPUT_STREAM, dataDestinationFormat);
 		EndpointChecker endpointChecker = new EndpointChecker(fragmentId);
-		cliRunner = new CliRunner(fragmentProcessor, endpointChecker, unreachableEndpointStrategy);
+		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, unreachableEndpointStrategy);
 
 		executorService.submit(cliRunner);
 		executorService.shutdown();
@@ -47,13 +45,13 @@ public class LdesClientCli {
 	private UnreachableEndpointStrategy getUnreachableEndpointStrategy(EndpointBehaviour endpointBehaviour,
 			String fragmentId, long pollingInterval) {
 		switch (endpointBehaviour) {
-			case STOPPING -> {
-				return new StoppingStrategy(fragmentId);
-			}
-			case WAITING -> {
-				return new WaitingStrategy(pollingInterval);
-			}
-			default -> throw new IllegalArgumentException();
+		case STOPPING -> {
+			return new StoppingStrategy(fragmentId);
+		}
+		case WAITING -> {
+			return new WaitingStrategy(pollingInterval);
+		}
+		default -> throw new IllegalArgumentException();
 		}
 	}
 }
