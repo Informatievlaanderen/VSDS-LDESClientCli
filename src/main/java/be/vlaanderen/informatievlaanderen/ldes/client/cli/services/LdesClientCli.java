@@ -42,7 +42,7 @@ public class LdesClientCli {
 		return ldesService;
 	}
 
-	private UnreachableEndpointStrategy getUnreachableEndpointStrategy(EndpointBehaviour endpointBehaviour,
+	protected UnreachableEndpointStrategy getUnreachableEndpointStrategy(EndpointBehaviour endpointBehaviour,
 			String fragmentId, long pollingInterval) {
 		switch (endpointBehaviour) {
 			case STOPPING -> {
