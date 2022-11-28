@@ -47,13 +47,13 @@ public class LdesClientCli {
 	private UnreachableEndpointStrategy getUnreachableEndpointStrategy(EndpointBehaviour endpointBehaviour,
 			String fragmentId, long pollingInterval) {
 		switch (endpointBehaviour) {
-		case STOPPING -> {
-			return new StoppingStrategy(fragmentId);
-		}
-		case WAITING -> {
-			return new WaitingStrategy(pollingInterval);
-		}
-		default -> throw new IllegalArgumentException();
+			case STOPPING -> {
+				return new StoppingStrategy(fragmentId);
+			}
+			case WAITING -> {
+				return new WaitingStrategy(pollingInterval);
+			}
+			default -> throw new IllegalArgumentException();
 		}
 	}
 }

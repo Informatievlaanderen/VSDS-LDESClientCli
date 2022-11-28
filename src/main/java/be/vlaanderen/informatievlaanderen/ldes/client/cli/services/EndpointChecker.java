@@ -22,8 +22,7 @@ public class EndpointChecker {
 			return connection.getResponseCode() == 200;
 		} catch (IOException e) {
 			LOGGER.info("Endpoint {} not available", endpoint);
-			throw new RuntimeException("Endpoint " + endpoint + " not available");
-//			return false;
+			return false;
 		}
 	}
 }
