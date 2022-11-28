@@ -1,11 +1,11 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EndpointChecker {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EndpointChecker.class);
@@ -22,7 +22,8 @@ public class EndpointChecker {
 			return connection.getResponseCode() == 200;
 		} catch (IOException e) {
 			LOGGER.info("Endpoint {} not available", endpoint);
-			return false;
+			throw new RuntimeException("Endpoint " + endpoint + " not available");
+//			return false;
 		}
 	}
 }
