@@ -14,6 +14,7 @@
 *.user
 *.local*
 *.db
+*.db-*
 
 ###
 ### Makefiles
