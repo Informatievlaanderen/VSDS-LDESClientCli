@@ -54,7 +54,5 @@ class LdesClientCliTest {
 	@Test
 	void whenIllegalEndpointBehaviourIsGiven_thenIllegalArgumentExceptionIsThrown() {
 		assertThrows(NullPointerException.class, () -> ldesClientCli.getUnreachableEndpointStrategy(null, null, 0));
-		assertThrows(IllegalArgumentException.class,
-				() -> ldesClientCli.getUnreachableEndpointStrategy(EndpointBehaviour.TEST, null, 0));
 	}
 }
