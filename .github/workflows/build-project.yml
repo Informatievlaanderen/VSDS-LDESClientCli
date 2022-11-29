@@ -38,8 +38,8 @@ jobs:
       - name: Build and analyze
         if: ${{ github.event.pull_request.head.repo.full_name == 'Informatievlaanderen/VSDS-LDESClientCli' }}
         env:
-          GITHUB_USER_REF: ${{ secrets.USER_NAME }} # Temporary hack to get around PAT for github packages
-          GITHUB_TOKEN_REF: ${{ secrets.ACCESS_TOKEN }} # Temporary hack to get around PAT for github packages
+          CLIENT_SDK_USERNAME: ${{ secrets.USER_NAME }} # Temporary hack to get around PAT for github packages
+          CLIENT_SDK_PASSWORD: ${{ secrets.ACCESS_TOKEN }} # Temporary hack to get around PAT for github packages
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Informatievlaanderen_VSDS-LDESClientCli -Pcoverage
