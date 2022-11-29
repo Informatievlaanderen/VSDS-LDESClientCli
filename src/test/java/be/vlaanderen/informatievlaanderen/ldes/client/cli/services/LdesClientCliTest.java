@@ -1,5 +1,8 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -9,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.stream.Stream;
 
 import org.apache.jena.riot.Lang;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,6 +20,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
+import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 
 class LdesClientCliTest {
 
@@ -38,4 +43,16 @@ class LdesClientCliTest {
 		}
 	}
 
+	@Test
+	void whenCliIsReady_thenLdesServiceIsAlso() {
+		assertNotNull(ldesClientCli.getLdesService());
+
+		LdesService ldesService = ldesClientCli.getLdesService();
+		assertTrue(LdesService.class.isAssignableFrom(ldesService.getClass()));
+	}
+
+	@Test
+	void whenIllegalEndpointBehaviourIsGiven_thenIllegalArgumentExceptionIsThrown() {
+		assertThrows(NullPointerException.class, () -> ldesClientCli.getUnreachableEndpointStrategy(null, null, 0));
+	}
 }
