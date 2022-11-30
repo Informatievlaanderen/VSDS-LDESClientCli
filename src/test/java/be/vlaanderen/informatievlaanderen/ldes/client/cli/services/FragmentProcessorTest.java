@@ -72,7 +72,7 @@ class FragmentProcessorTest {
 		UnparseableFragmentException unparseableFragmentException = assertThrows(UnparseableFragmentException.class,
 				fragmentProcessor::processLdesFragments);
 
-		assertEquals("LdesClient can't parse fragment with id fragmentURL", unparseableFragmentException.getMessage());
+		assertEquals("LDES Client: fragmentURL", unparseableFragmentException.getMessage());
 	}
 
 	private LdesMember readLdesMemberFromFile(ClassLoader classLoader, String fileName)
