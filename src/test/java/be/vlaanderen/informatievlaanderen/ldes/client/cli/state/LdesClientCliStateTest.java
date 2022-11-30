@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.riot.Lang;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,11 @@ class LdesClientCliStateTest {
 		stateManager.clearState();
 
 		ldesService.queueFragment(fragment3);
+	}
+
+	@AfterEach
+	void tearDown() {
+		stateManager.destroyState();
 	}
 
 	@Test

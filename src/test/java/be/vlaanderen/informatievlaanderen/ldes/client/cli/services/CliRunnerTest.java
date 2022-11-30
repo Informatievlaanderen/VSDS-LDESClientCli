@@ -1,15 +1,19 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
-import org.awaitility.Awaitility;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.awaitility.Awaitility.await;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.awaitility.Awaitility.await;
-import static org.mockito.Mockito.*;
+import org.awaitility.Awaitility;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class CliRunnerTest {
 
@@ -23,7 +27,6 @@ class CliRunnerTest {
 	void setUp() {
 		Awaitility.reset();
 		cliRunner = new CliRunner(fragmentProcessor, endpointChecker, unreachableEndpointStrategy);
-
 	}
 
 	@Test
@@ -33,9 +36,7 @@ class CliRunnerTest {
 		ExecutorService service = Executors.newSingleThreadExecutor();
 		service.submit(cliRunner);
 
-		await()
-				.during(10, TimeUnit.MILLISECONDS)
-				.until(() -> true);
+		await().during(10, TimeUnit.MILLISECONDS).until(() -> true);
 		cliRunner.setThreadrunning(false);
 
 		verifyNoInteractions(fragmentProcessor);
@@ -49,9 +50,7 @@ class CliRunnerTest {
 		ExecutorService service = Executors.newSingleThreadExecutor();
 		service.submit(cliRunner);
 
-		await()
-				.during(10, TimeUnit.MILLISECONDS)
-				.until(() -> true);
+		await().during(10, TimeUnit.MILLISECONDS).until(() -> true);
 		cliRunner.setThreadrunning(false);
 
 		verify(fragmentProcessor, atLeast(1)).processLdesFragments();
