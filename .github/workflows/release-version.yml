@@ -8,15 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn clean install
+      - name: Build and Test
+        uses: qcastel/github-actions-maven-cmd@master
+        with:
+          maven-repo-server-id: github
+          maven-repo-server-username: ${{ secrets.USER_NAME }}
+          maven-repo-server-password: ${{ secrets.ACCESS_TOKEN }}
+          maven-args: "clean install"
 
       - name: Release
         uses: qcastel/github-actions-maven-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           git-release-bot-name: "Maven Release"
           git-release-bot-email: "maven@release.io"
