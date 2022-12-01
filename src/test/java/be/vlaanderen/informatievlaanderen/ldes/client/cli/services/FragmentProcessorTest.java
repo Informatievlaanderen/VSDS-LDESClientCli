@@ -21,6 +21,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFParserBuilder;
 import org.junit.jupiter.api.Test;
 
+import be.vlaanderen.informatievlaanderen.ldes.client.exceptions.FragmentFetcherException;
 import be.vlaanderen.informatievlaanderen.ldes.client.exceptions.UnparseableFragmentException;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
@@ -73,6 +74,20 @@ class FragmentProcessorTest {
 				fragmentProcessor::processLdesFragments);
 
 		assertEquals("LDES Client: fragmentURL", unparseableFragmentException.getMessage());
+	}
+
+	@Test
+	void when_LdesServerThrowsFragmentFetcherException_FragmentFetcherExceptionIsRethrown() {
+		when(ldesService.hasFragmentsToProcess())
+				.thenThrow(new FragmentFetcherException("fragmentURL", new RuntimeException()));
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		PrintStream printStream = new PrintStream(byteArrayOutputStream);
+
+		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, printStream, null);
+		FragmentFetcherException fragmentFetcherException = assertThrows(FragmentFetcherException.class,
+				fragmentProcessor::processLdesFragments);
+
+		assertEquals("fragmentURL", fragmentFetcherException.getMessage());
 	}
 
 	private LdesMember readLdesMemberFromFile(ClassLoader classLoader, String fileName)
