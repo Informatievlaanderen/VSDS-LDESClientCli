@@ -4,7 +4,7 @@
 
     <groupId>be.vlaanderen.informatievlaanderen.vsds</groupId>
     <artifactId>ldes-client-cli</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <properties>
         <!-- Java properties -->
@@ -269,6 +269,6 @@
         <connection>scm:git:${project.scm.url}</connection>
         <developerConnection>scm:git:${project.scm.url}</developerConnection>
         <url>git@github.com:Informatievlaanderen/VSDS-LDESClientCli.git</url>
-        <tag>1.0.2</tag>
+        <tag>1.0.1</tag>
     </scm>
 </project>
