@@ -24,7 +24,7 @@
         <integrationtestskip>false</integrationtestskip>
 
 		<!-- VSDS -->
-        <ldes-client.version>1.0-SNAPSHOT</ldes-client.version>
+        <ldes-client.version>1.0</ldes-client.version>
         
         <!-- Spring boot -->
         <spring-boot.version>2.7.5</spring-boot.version>
