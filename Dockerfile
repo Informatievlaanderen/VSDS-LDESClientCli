@@ -10,7 +10,7 @@ RUN rm -rf *.db *.db-*
 
 WORKDIR /
 COPY . /
-RUN mvn net.revelc.code.formatter:formatter-maven-plugin:format install
+RUN mvn -DskipTests -DskipITs net.revelc.code.formatter:formatter-maven-plugin:format install
 RUN rm -rf *.db *.db-*
 
 ENTRYPOINT ["java","-jar","target/ldes-client-cli-jar-with-dependencies.jar"]
