@@ -34,6 +34,8 @@ class LdesClientCliTest {
 
 		verify(executorService, times(1)).submit(any(CliRunner.class));
 		verify(executorService, times(1)).shutdown();
+
+		ldesClientCli.getLdesService().getStateManager().destroyState();
 	}
 
 	static class EndpointBehavoirArgumentsProvider implements ArgumentsProvider {
