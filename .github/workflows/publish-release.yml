@@ -22,10 +22,11 @@ jobs:
           distribution: zulu
           java-version: 18
 
-      - name: Get Version From mvn
+      - name: Publish Jar to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
+          mvn deploy
           export VERSION=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout)
           echo "version=$VERSION" >> $GITHUB_ENV
 
