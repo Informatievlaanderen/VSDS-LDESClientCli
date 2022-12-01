@@ -9,8 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.riot.Lang;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
@@ -20,6 +18,7 @@ import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.WaitingStrategy;
+import be.vlaanderen.informatievlaanderen.ldes.client.config.LdesClientConfig;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import be.vlaanderen.informatievlaanderen.ldes.client.state.LdesStateManager;
 
@@ -30,61 +29,63 @@ class LdesClientCliStateTest {
 	private final String fragment4 = "http://localhost:10101/exampleData?generatedAtTime=2022-05-04T00:00:00.000Z";
 	private final String fragment5 = "http://localhost:10101/exampleData?generatedAtTime=2022-05-05T00:00:00.000Z";
 
-	ExecutorService executorService;
-	LdesService ldesService;
-	LdesStateManager stateManager;
-
-	@BeforeEach
-	void setup() {
-		ldesService = LdesClientImplFactory.getLdesService();
-		stateManager = ldesService.getStateManager();
-
-		ldesService.setDataSourceFormat(Lang.JSONLD);
-		ldesService.setFragmentExpirationInterval(1000L);
-
-		stateManager.clearState();
-
-		ldesService.queueFragment(fragment3);
-	}
-
-	@AfterEach
-	void tearDown() {
-		stateManager.destroyState();
-	}
+	LdesClientConfig config = new LdesClientConfig();
 
 	@Test
 	void whenLdesClientCliHasReplicated_thenNoFragmentsRemainInTheQueue() throws Exception {
+		LdesClientConfig config = new LdesClientConfig();
+		LdesService ldesService = LdesClientImplFactory.getLdesService(config);
+		LdesStateManager stateManager = ldesService.getStateManager();
+
+		config.setPersistenceDbName("test-completed-ldes.db");
+		ldesService.setDataSourceFormat(Lang.JSONLD);
+		ldesService.setFragmentExpirationInterval(1000L);
+		ldesService.queueFragment(fragment3);
+
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, System.out, Lang.TURTLE);
 		EndpointChecker endpointChecker = new EndpointChecker(fragment3);
 		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, new WaitingStrategy(20L));
 
-		executorService = Executors.newSingleThreadExecutor();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
 		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countQueuedFragments, equalTo(0L));
 
 		assertEquals(0, stateManager.countQueuedFragments());
 		assertEquals(3, stateManager.countProcessedImmutableFragments());
 		assertEquals(6, stateManager.countProcessedMembers());
+
+		stateManager.destroyState();
 	}
 
 	@Test
 	void whenLdesClientCliResumes_thenCliResumesAtLastMutableFragment() {
+		LdesClientConfig config = new LdesClientConfig();
+		LdesService ldesService = LdesClientImplFactory.getLdesService(config);
+		LdesStateManager stateManager = ldesService.getStateManager();
+
+		config.setPersistenceDbName("test-resumed-ldes.db");
+		ldesService.setDataSourceFormat(Lang.JSONLD);
+		ldesService.setFragmentExpirationInterval(1000L);
+		ldesService.queueFragment(fragment3);
+
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, System.out, Lang.TURTLE);
 		EndpointChecker endpointChecker = new EndpointChecker(fragment3);
 		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, new WaitingStrategy(20L));
 
-		executorService = Executors.newSingleThreadExecutor();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
-		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(1L));
 		executorService.shutdown();
 
+		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(1L));
 		assertEquals(fragment4, stateManager.next());
 
 		executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
-		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(2L));
 		executorService.shutdown();
+		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(2L));
 
 		assertEquals(fragment5, stateManager.next());
+
+		stateManager.destroyState();
 	}
 }
