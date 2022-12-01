@@ -30,7 +30,6 @@ class LdesClientCliStateTest {
 	private final String fragment4 = "http://localhost:10101/exampleData?generatedAtTime=2022-05-04T00:00:00.000Z";
 	private final String fragment5 = "http://localhost:10101/exampleData?generatedAtTime=2022-05-05T00:00:00.000Z";
 
-	ExecutorService executorService;
 	LdesService ldesService;
 	LdesStateManager stateManager;
 
@@ -58,7 +57,7 @@ class LdesClientCliStateTest {
 		EndpointChecker endpointChecker = new EndpointChecker(fragment3);
 		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, new WaitingStrategy(20L));
 
-		executorService = Executors.newSingleThreadExecutor();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
 		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countQueuedFragments, equalTo(0L));
 
@@ -73,7 +72,7 @@ class LdesClientCliStateTest {
 		EndpointChecker endpointChecker = new EndpointChecker(fragment3);
 		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, new WaitingStrategy(20L));
 
-		executorService = Executors.newSingleThreadExecutor();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
 		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(1L));
 		executorService.shutdown();
