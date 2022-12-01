@@ -23,18 +23,11 @@ jobs:
         with:
           distribution: zulu
           java-version: 18
-          server-id: github-client-sdk
-          server-username: CLIENT_SDK_USERNAME
-          server-password: CLIENT_SDK_PASSWORD
       - name: Publish Jar to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          GITHUB_USER_REF: x-access-token # Temporary hack to get around PAT for github packages
-          GITHUB_TOKEN_REF: ${{ secrets.GITHUB_TOKEN }} # Temporary hack to get around PAT for github packages
-          CLIENT_SDK_USERNAME: ${{ secrets.USER_NAME }} # Temporary hack to get around PAT for github packages
-          CLIENT_SDK_PASSWORD: ${{ secrets.ACCESS_TOKEN }} # Temporary hack to get around PAT for github packages
         run: |
-          mvn --settings ./.github/workflows/settings.xml deploy
+          mvn deploy
           export VERSION=$(mvn help:evaluate -Dexpression="project.version" -q -DforceStdout)
           echo "version=$VERSION" >> $GITHUB_ENV
 
@@ -44,6 +37,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: Informatievlaanderen
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
@@ -55,8 +49,6 @@ jobs:
             type=ref,event=pr
             type=raw,value=${{env.version}}
             type=raw,value={{date 'YYYYMMDDTHHmm'}}
-          flavor: |
-            latest=true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3

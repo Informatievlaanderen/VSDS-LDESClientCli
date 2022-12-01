@@ -20,9 +20,6 @@ jobs:
         with:
           java-version: '18'
           distribution: 'adopt'
-          server-id: github-client-sdk
-          server-username: CLIENT_SDK_USERNAME
-          server-password: CLIENT_SDK_PASSWORD
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
@@ -38,11 +35,9 @@ jobs:
       - name: Build and analyze
         if: ${{ github.event.pull_request.head.repo.full_name == 'Informatievlaanderen/VSDS-LDESClientCli' }}
         env:
-          CLIENT_SDK_USERNAME: ${{ secrets.USER_NAME }} # Temporary hack to get around PAT for github packages
-          CLIENT_SDK_PASSWORD: ${{ secrets.ACCESS_TOKEN }} # Temporary hack to get around PAT for github packages
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Informatievlaanderen_VSDS-LDESClientCli -Pcoverage
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dintegrationtestskip=true -Dsonar.projectKey=Informatievlaanderen_VSDS-LDESClientCli -Pcoverage
       - name: Build (Forks) # https://portal.productboard.com/sonarsource/1-sonarcloud/c/50-sonarcloud-analyzes-external-pull-request
         if: ${{ github.event.pull_request.head.repo.full_name != 'Informatievlaanderen/VSDS-LDESClientCli' }}
         run: mvn -B verify -Dintegrationtestskip=true

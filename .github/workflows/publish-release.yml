@@ -1,4 +1,4 @@
-name: Release 2. Publish
+name: 4. Publish Release
 
 on:
   release:
@@ -40,7 +40,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ldes/ldes-client-cli
+          images: ${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=tag
