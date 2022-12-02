@@ -4,7 +4,7 @@ FROM maven:3.8.5-openjdk-18
 # Note when a new version is used update the "git reset --hard" command
 RUN git clone https://github.com/Informatievlaanderen/VSDS-LDESClient4J.git/
 WORKDIR /VSDS-LDESClient4J
-RUN git reset --hard d9e8be5eb151d3eef1143f9c9b8252854d3b2e84
+RUN git reset --hard c9cb7132887a792579a96cbf92c1fa3879fa70d6
 RUN mvn clean install
 RUN rm -rf *.db *.db-*
 
