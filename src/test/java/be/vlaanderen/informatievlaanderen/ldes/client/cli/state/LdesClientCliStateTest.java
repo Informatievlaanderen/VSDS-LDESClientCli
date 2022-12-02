@@ -67,6 +67,7 @@ class LdesClientCliStateTest {
 		ldesService.setDataSourceFormat(Lang.JSONLD);
 		ldesService.setFragmentExpirationInterval(1000L);
 		ldesService.queueFragment(fragment3);
+		ldesService.getStateManager().clearState();
 
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, System.out, Lang.TURTLE);
 		EndpointChecker endpointChecker = new EndpointChecker(fragment3);
