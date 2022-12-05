@@ -3,6 +3,8 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.state;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.riot.Lang;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 
@@ -76,16 +77,25 @@ class LdesClientCliStateTest {
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
+		await().during(10, TimeUnit.MILLISECONDS).until(() -> true);
+		cliRunner.setThreadrunning(false);
+
+		verify(fragmentProcessor, atLeast(1)).processLdesFragments();
+		assertEquals(0, stateManager.countQueuedFragments());
 		executorService.shutdown();
 
-		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(1L));
+		assertEquals(1, stateManager.countProcessedImmutableFragments());
 		assertEquals(fragment4, stateManager.next());
 
 		executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
-		executorService.shutdown();
-		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(2L));
+		await().during(10, TimeUnit.MILLISECONDS).until(() -> true);
+		cliRunner.setThreadrunning(false);
 
+		verify(fragmentProcessor, atLeast(1)).processLdesFragments();
+		assertEquals(0, stateManager.countQueuedFragments());
+		executorService.shutdown();
+		assertEquals(2, stateManager.countProcessedImmutableFragments());
 		assertEquals(fragment5, stateManager.next());
 
 		stateManager.destroyState();
