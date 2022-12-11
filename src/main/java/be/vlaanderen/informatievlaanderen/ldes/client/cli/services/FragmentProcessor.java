@@ -12,8 +12,10 @@ import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
 
 public class FragmentProcessor {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(FragmentProcessor.class);
-	private final LdesService ldesService;
+
+	protected final LdesService ldesService;
 	private final PrintStream printStream;
 	private final Lang destinationFormat;
 

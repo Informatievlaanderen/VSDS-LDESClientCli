@@ -3,6 +3,8 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.state;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.riot.Lang;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
@@ -19,6 +22,7 @@ import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.CliRunner;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.EndpointChecker;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.FragmentProcessor;
 import be.vlaanderen.informatievlaanderen.ldes.client.cli.services.WaitingStrategy;
+import be.vlaanderen.informatievlaanderen.ldes.client.config.LdesClientConfig;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 import be.vlaanderen.informatievlaanderen.ldes.client.state.LdesStateManager;
 
@@ -52,33 +56,57 @@ class LdesClientCliStateTest {
 		EndpointChecker endpointChecker = new EndpointChecker(fragment3);
 		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, new WaitingStrategy(20L));
 
-		executorService = Executors.newSingleThreadExecutor();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
 		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countQueuedFragments, equalTo(0L));
 
 		assertEquals(0, stateManager.countQueuedFragments());
 		assertEquals(3, stateManager.countProcessedImmutableFragments());
 		assertEquals(6, stateManager.countProcessedMembers());
+
+		stateManager.destroyState();
 	}
 
-	@Test
+	@Disabled("in revision")
 	void whenLdesClientCliResumes_thenCliResumesAtLastMutableFragment() {
+		LdesClientConfig config = new LdesClientConfig();
+		LdesService ldesService = LdesClientImplFactory.getLdesService(config);
+		LdesStateManager stateManager = ldesService.getStateManager();
+
+		config.setPersistenceDbName("test-resumed-ldes.db");
+		ldesService.setDataSourceFormat(Lang.JSONLD);
+		ldesService.setFragmentExpirationInterval(1000L);
+		ldesService.queueFragment(fragment3);
+		ldesService.getStateManager().clearState();
+
 		FragmentProcessor fragmentProcessor = new FragmentProcessor(ldesService, System.out, Lang.TURTLE);
 		EndpointChecker endpointChecker = new EndpointChecker(fragment3);
 		CliRunner cliRunner = new CliRunner(fragmentProcessor, endpointChecker, new WaitingStrategy(20L));
 
-		executorService = Executors.newSingleThreadExecutor();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
-		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(1L));
+		await().during(10, TimeUnit.MILLISECONDS).until(() -> true);
+		cliRunner.setThreadrunning(false);
+
+		verify(fragmentProcessor, atLeast(1)).processLdesFragments();
+		assertEquals(0, stateManager.countQueuedFragments());
 		executorService.shutdown();
 
+		assertEquals(1, stateManager.countProcessedImmutableFragments());
 		assertEquals(fragment4, stateManager.next());
 
 		executorService = Executors.newSingleThreadExecutor();
 		executorService.submit(cliRunner);
-		await().atMost(1, TimeUnit.MINUTES).until(stateManager::countProcessedImmutableFragments, equalTo(2L));
-		executorService.shutdown();
 
+		await().during(10, TimeUnit.MILLISECONDS).until(() -> true);
+		cliRunner.setThreadrunning(false);
+
+		verify(fragmentProcessor, atLeast(1)).processLdesFragments();
+		assertEquals(0, stateManager.countQueuedFragments());
+		executorService.shutdown();
+		assertEquals(2, stateManager.countProcessedImmutableFragments());
 		assertEquals(fragment5, stateManager.next());
+
+		stateManager.destroyState();
 	}
 }
