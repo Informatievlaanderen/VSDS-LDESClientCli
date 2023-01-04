@@ -1,14 +1,20 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.arguments;
 
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
-import com.beust.jcommander.Parameter;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_DATA_DESTINATION_FORMAT;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_DATA_SOURCE_FORMAT;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_FRAGMENT_EXPIRATION_INTERVAL;
+import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_POLLING_INTERVAL;
+
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 
-import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.*;
+import com.beust.jcommander.Parameter;
+
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 
 @SuppressWarnings({ "FieldMayBeFinal", "FieldCanBeLocal" })
 public class CommandlineArguments {
+
 	@Parameter(names = "--url", description = "The base fragment url of the LDES", required = true, order = 0)
 	private String url;
 	@Parameter(names = { "--input-format",

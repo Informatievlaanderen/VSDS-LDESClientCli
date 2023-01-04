@@ -22,7 +22,6 @@ public class CliRunner implements Runnable {
 				fragmentProcessor.processLdesFragments();
 			} else {
 				threadrunning = unreachableEndpointStrategy.handleUnreachableEndpoint();
-
 			}
 		}
 	}

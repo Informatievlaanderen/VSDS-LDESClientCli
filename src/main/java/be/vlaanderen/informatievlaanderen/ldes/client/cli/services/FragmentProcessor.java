@@ -1,18 +1,21 @@
 package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
-import be.vlaanderen.informatievlaanderen.ldes.client.converters.ModelConverter;
-import be.vlaanderen.informatievlaanderen.ldes.client.exceptions.UnparseableFragmentException;
-import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
-import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
+import java.io.PrintStream;
+
 import org.apache.jena.riot.Lang;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.PrintStream;
+import be.vlaanderen.informatievlaanderen.ldes.client.converters.ModelConverter;
+import be.vlaanderen.informatievlaanderen.ldes.client.exceptions.UnparseableFragmentException;
+import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
+import be.vlaanderen.informatievlaanderen.ldes.client.valueobjects.LdesFragment;
 
 public class FragmentProcessor {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(FragmentProcessor.class);
-	private final LdesService ldesService;
+
+	protected final LdesService ldesService;
 	private final PrintStream printStream;
 	private final Lang destinationFormat;
 
