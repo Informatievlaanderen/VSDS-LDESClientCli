@@ -3,11 +3,11 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 import java.io.PrintStream;
 import java.util.concurrent.ExecutorService;
 
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 import org.apache.jena.riot.Lang;
 import org.springframework.stereotype.Component;
 
 import be.vlaanderen.informatievlaanderen.ldes.client.LdesClientImplFactory;
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 import be.vlaanderen.informatievlaanderen.ldes.client.services.LdesService;
 
 @Component

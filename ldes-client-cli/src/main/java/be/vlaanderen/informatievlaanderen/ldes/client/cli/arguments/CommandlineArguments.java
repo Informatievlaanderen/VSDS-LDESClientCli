@@ -5,12 +5,11 @@ import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.
 import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_FRAGMENT_EXPIRATION_INTERVAL;
 import static be.vlaanderen.informatievlaanderen.ldes.client.LdesClientDefaults.DEFAULT_POLLING_INTERVAL;
 
+import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 
 import com.beust.jcommander.Parameter;
-
-import be.vlaanderen.informatievlaanderen.ldes.client.cli.model.EndpointBehaviour;
 
 @SuppressWarnings({ "FieldMayBeFinal", "FieldCanBeLocal" })
 public class CommandlineArguments {
