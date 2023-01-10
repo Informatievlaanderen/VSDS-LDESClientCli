@@ -2,7 +2,7 @@ package be.vlaanderen.informatievlaanderen.ldes.client.cli.services;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class StoppingStrategyTest {
 
